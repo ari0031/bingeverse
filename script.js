@@ -82,3 +82,112 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   });
 });
+document.addEventListener('DOMContentLoaded', () => {
+  const icons = document.querySelectorAll('.icon-option');
+
+  icons.forEach(icon => {
+      icon.addEventListener('click', () => {
+          // Remove the 'selected' class from all icons
+          icons.forEach(i => i.classList.remove('selected'));
+          // Add the 'selected' class to the clicked icon
+          icon.classList.add('selected');
+          // Optionally, you can save the selected icon or update the profile picture here
+          // Example: updateProfilePicture(icon.src);
+      });
+  });
+});
+document.addEventListener('DOMContentLoaded', () => {
+  const imagesContainer = document.querySelector('.carouseled-images');
+  const slides = document.querySelectorAll('.carouseled-slide');
+  const prevBtn = document.querySelector('.carouseled-control.prev');
+  const nextBtn = document.querySelector('.carouseled-control.next');
+  let currentIndex = 0;
+
+  function updateCarousel() {
+    const offset = -currentIndex * (slides[0].clientWidth + 20); // Adjust for margin
+    imagesContainer.style.transform = `translateX(${offset}px)`;
+  }
+
+  nextBtn.addEventListener('click', () => {
+    if (currentIndex < slides.length - 1) {
+      currentIndex++;
+      updateCarousel();
+    }
+  });
+
+  prevBtn.addEventListener('click', () => {
+    if (currentIndex > 0) {
+      currentIndex--;
+      updateCarousel();
+    }
+  });
+
+  // Optional: Auto-slide every 5 seconds
+  setInterval(() => {
+    nextBtn.click();
+  }, 5000);
+});
+document.addEventListener('DOMContentLoaded', function () {
+  const slides = document.querySelectorAll('.carouseled-slide');
+  const dotsContainer = document.querySelector('.carouseled-dots');
+  let currentIndex = 0;
+
+  // Create dots
+  slides.forEach((_, index) => {
+    const dot = document.createElement('div');
+    dot.classList.add('carouseled-dot');
+    dot.addEventListener('click', () => goToSlide(index));
+    dotsContainer.appendChild(dot);
+  });
+
+  const dots = document.querySelectorAll('.carouseled-dot');
+
+  function goToSlide(index) {
+    const offset = -index * 100;
+    document.querySelector('.carouseled-images').style.transform = `translateX(${offset}vw)`;
+    currentIndex = index;
+    updateDots();
+  }
+
+  function updateDots() {
+    dots.forEach((dot, index) => {
+      dot.classList.toggle('active', index === currentIndex);
+    });
+  }
+
+  // Initialize
+});
+// script.js
+// script.js
+document.addEventListener('DOMContentLoaded', function () {
+  const iconOptions = document.querySelectorAll('.icon-option');
+  const profileIcon = document.querySelector('.profile-icon'); // Profile icon in the header
+
+  // Load saved icon from localStorage
+  const savedIconSrc = localStorage.getItem('profileIconSrc');
+  if (savedIconSrc) {
+      profileIcon.src = savedIconSrc;
+  }
+
+  iconOptions.forEach(icon => {
+      icon.addEventListener('click', function() {
+          const newIconSrc = this.src; // Get the src of the clicked icon
+          profileIcon.src = newIconSrc; // Update the profile icon's src
+
+          // Save the selected icon to localStorage
+          localStorage.setItem('profileIconSrc', newIconSrc);
+
+          console.log(`Profile icon changed to: ${newIconSrc}`);
+      });
+  });
+
+  document.querySelector('.edit-profile').addEventListener('click', function() {
+      console.log('Edit Profile clicked');
+      // Implement logic to edit the profile
+  });
+
+  document.querySelector('.logout').addEventListener('click', function() {
+      console.log('Logout clicked');
+      // Implement logic to logout
+  });
+});
